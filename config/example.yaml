@@ -1,0 +1,60 @@
+
+# Source SQL Server connection
+source:
+  server: "localhost"
+  database: "SourceDB"
+  username: "sa"
+  password: "YourPassword"
+  driver: "ODBC Driver 17 for SQL Server"
+
+# Target PostgreSQL connection  
+target:
+  host: "localhost"
+  port: 5432
+  database: "target_db"
+  username: "postgres"
+  password: "postgres"
+
+# Migration settings
+migration:
+  batch_size: 10000
+  max_retries: 3
+  timeout: 300
+  
+  # Objects to include/exclude
+  include_schemas:
+    - "dbo"
+    - "app"
+  
+  exclude_tables:
+    - "dbo.temp_*"
+    - "dbo.audit_*"
+  
+  exclude_views:
+    - "dbo.vw_temp_*"
+
+# Data type mapping overrides
+data_mapping:
+  custom_mappings:
+    "money": "DECIMAL(19,4)"
+    "smallmoney": "DECIMAL(10,4)"
+
+# Conversion rules
+conversion_rules:
+  preserve_case: false
+  convert_identity: true
+  handle_computed_columns: "skip"  # skip, convert, or error
+
+# Performance settings
+performance:
+  parallel_workers: 4
+  memory_limit: "2GB"
+  
+# Logging configuration
+logging:
+  level: "INFO"
+  file_rotation: true
+  max_file_size: "50MB"
+  backup_count: 10
+
+
